@@ -1,3 +1,4 @@
+
 import React, { useState, useCallback, useEffect } from 'react';
 import * as pdfjsLib from 'pdfjs-dist';
 import JSZip from 'jszip';
@@ -106,9 +107,10 @@ const App: React.FC = () => {
     const storedKey = localStorage.getItem('gemini_api_key');
     if (storedKey) {
       setApiKey(storedKey);
+    } else if (process.env.API_KEY) {
+        // Fallback to env var if available (dev mode)
+        setApiKey(process.env.API_KEY);
     }
-    // Note: Removed process.env check to ensure compatibility with static hosting (GitHub Pages)
-    // where process might not be defined, avoiding runtime crashes.
   }, []);
 
   const handleApiKeyChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -366,7 +368,7 @@ const App: React.FC = () => {
     <div className="min-h-screen bg-slate-900 text-slate-100 p-4 sm:p-6 lg:p-8 flex flex-col items-center">
       <header className="w-full max-w-5xl mb-8 text-center">
         <img src="https://digibeat.com/wp-content/uploads/2022/06/logo-white-300x80.png" alt="Digital Beat Logo" className="mx-auto mb-4 h-20" />
-        <h1 className="text-4xl font-bold text-sky-400">Ontario Certificate Tool</h1>
+        <h1 className="text-4xl font-bold text-sky-400">Digital Beat certificate tool</h1>
         <p className="mt-2 text-slate-400">Upload PDFs and game data from Monday to process</p>
       </header>
 
@@ -430,7 +432,7 @@ const App: React.FC = () => {
       </main>
 
       <footer className="w-full max-w-5xl mt-12 pt-6 border-t border-slate-700 text-center text-slate-500 text-sm">
-        <p>&copy; {new Date().getFullYear()} Ontario Certificate Tool. Created by Bob Fox. Powered by Gemini.</p>
+        <p>&copy; {new Date().getFullYear()} Digital Beat certificate tool. Created by Bob Fox. Powered by Gemini.</p>
       </footer>
     </div>
   );
